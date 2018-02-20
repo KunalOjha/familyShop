@@ -7,19 +7,26 @@ import { AppUser } from '../models/app-user';
 import { UserService } from './user.service';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
+import { CategoryService } from '../category.service';
 
 
 @Injectable()
 export class AuthService {
   user$: Observable<firebase.User>;
 
-  constructor(private afAuth : AngularFireAuth, private route: ActivatedRoute, private userService: UserService) {
+  constructor(
+    private afAuth : AngularFireAuth, 
+    private route: ActivatedRoute, 
+    private router: Router, 
+    private userService: UserService,
+    private categoryService: CategoryService) {
+
     this.user$ = this.afAuth.authState;
   }
 
-  get appUser$() : Observable<AppUser> {
+  get appUser$(): Observable<AppUser> {
         return this.user$.switchMap(user => {
-          if(user) return this.userService.getUserData(user.uid);
+          if (user) return this.userService.getUserData(user.uid);
 
           return Observable.of(null);
         });    
@@ -34,6 +41,7 @@ export class AuthService {
  
   logout() {
     this.afAuth.auth.signOut();
+    this.router.navigate(['/login']); 
   }
 
 }
