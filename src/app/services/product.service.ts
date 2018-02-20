@@ -9,4 +9,10 @@ export class ProductService {
   create(product:object) {
     return this.db.list('/products').push(product);
   }
+  getProduct(productId) {
+    return this.db.object('/products/'+ productId);
+  }
+  getAll() {
+    return this.db.list('/products');
+  }
 }
