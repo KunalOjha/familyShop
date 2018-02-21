@@ -12,11 +12,17 @@ export class AppComponent {
   constructor(authService: AuthService, private router: Router, private userService: UserService) {
 
     authService.user$.subscribe(user => {
-      if (user) {
-        userService.save(user);
-        let returnUrl = localStorage.getItem('returnUrl');
-        router.navigateByUrl(returnUrl);
-      }
+      if (!user) return  
+      
+      userService.save(user);
+      
+      let returnUrl = localStorage.getItem('returnUrl');
+      if (!returnUrl) return;
+      //remove returnUrl from root view local storage after user$ is returned. This will allow refresh without 
+      //navigation to the returnUrl everytime
+      localStorage.removeItem('returnUrl');
+      router.navigateByUrl(returnUrl);
+      
     })
   }
 }
