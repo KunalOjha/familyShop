@@ -5,7 +5,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 export class CategoryService {
   constructor(private db: AngularFireDatabase) {}
 
-   getCategories (): FirebaseListObservable<any> {
+   getAll(): FirebaseListObservable<any> {
     return this.db.list('/categories/', {
       query: {
         orderByChild: 'name'
