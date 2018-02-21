@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { Product } from '../../models/product';
-import { CategoryService } from '../../category.service';
 import { ActivatedRoute } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
@@ -14,13 +13,9 @@ import 'rxjs/add/operator/switchMap';
 export class ProductsComponent {
   products;
   filteredProducts: Product[];
-  categories$: FirebaseListObservable<Product[]>;
   category: string;
 
-  constructor(
-    productService: ProductService, 
-    private categoryService: CategoryService,
-    private route: ActivatedRoute) {
+  constructor( productService: ProductService, private route: ActivatedRoute ) {
     productService
       .getAll()
       .switchMap(products => {
@@ -34,7 +29,5 @@ export class ProductsComponent {
             this.products.filter(p => p.category === this.category) :
             this.products;
           });
-
-          this.categories$ = categoryService.getAll();
     }
 }

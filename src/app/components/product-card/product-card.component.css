@@ -1,0 +1,10 @@
+.card {
+    margin-bottom: 0px;
+}
+.card-img-top {
+    height: 150px;
+    width: auto
+}
+.card-footer {
+    padding: 0px;
+}
