@@ -1,5 +1,5 @@
 .card {
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 }
 .card-img-top {
     height: 150px;
@@ -7,4 +7,11 @@
 }
 .card-footer {
     padding: 0px;
+}
+.addToCart {
+    border-radius: 0;
+}
+
+.card-footer button {
+    cursor: pointer;
 }
