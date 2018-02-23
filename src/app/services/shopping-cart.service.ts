@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseObjectObservable} from 'angularfire2/database';
 import { Product } from '../models/product';
-import 'rxjs/add/operator/take';
 import { ShoppingCart } from '../models/shopping-cart';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs/Observable';
+
 @Injectable()
 export class ShoppingCartService {
-
+x =1;
   constructor(private db: AngularFireDatabase) { }
 
   //creates a shopping cart object
@@ -16,9 +19,14 @@ export class ShoppingCartService {
   }
 
   //retrieves a shopping cart
-  async getCart(): Promise<FirebaseObjectObservable<ShoppingCart>> {
+
+  //help reviewing this below
+  async getCart(): Promise<Observable<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId()
-    return this.db.object('shopping-carts/' + cartId);
+    return this.db.object('shopping-carts/' + cartId)
+    //since we want more than just the items from the shopping cart in firebase (ie: quantity), 
+    //we create a new object where we can take the given items, calculate and store in a new property.
+      .map(cart => new ShoppingCart(cart.items));
   }
   
   private getItem(cartId: string, productId: string) {
